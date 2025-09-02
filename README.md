@@ -86,7 +86,13 @@ The frontend setup requires a few steps to initialize the Vite + React project a
     docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install -D tailwindcss @tailwindcss/vite
     ```
 
-#### 4. Configure TailwindCSS
+#### 4. Fixing permissions from the files created at frontend
+
+    ```bash
+    sudo chown -R $(id -u):$(id -g) frontend
+    ```
+
+#### 5. Configure TailwindCSS
 
 After installing the dependencies, you need to configure Vite and your main CSS file to use Tailwind.
 
@@ -133,7 +139,7 @@ After installing the dependencies, you need to configure Vite and your main CSS 
     export default App;
     ```
 
-#### 5. Running in Development Mode
+#### 6. Running in Development Mode
 
 To start all services (backend, frontend, database, etc.) for development, run:
 
@@ -144,7 +150,7 @@ docker-compose up --build
 - **Backend API** will be available at `http://localhost:8000`
 - **Frontend Dev Server** will be available at `http://localhost:5173` (with hot-reloading)
 
-#### 5. Running in Production Mode
+#### 7. Running in Production Mode
 
 To build and run the production-ready containers, use the `docker-compose.prod.yml` file. This will build the static frontend files and serve them via Nginx.
 
@@ -240,7 +246,13 @@ A configuração do frontend requer alguns passos para inicializar o projeto Vit
     docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install -D tailwindcss @tailwindcss/vite
     ```
 
-#### 4. Configurar o TailwindCSS
+#### 4. Ajustando as permissões dos arquivos criados em frontend
+
+    ```bash
+    sudo chown -R $(id -u):$(id -g) frontend
+    ```
+
+#### 5. Configurar o TailwindCSS
 
 Após instalar as dependências, você precisa configurar o Vite e seu arquivo CSS principal para usar o Tailwind.
 
@@ -287,7 +299,7 @@ Após instalar as dependências, você precisa configurar o Vite e seu arquivo C
     export default App;
     ```
 
-#### 5. Executando em Modo de Desenvolvimento
+#### 6. Executando em Modo de Desenvolvimento
 
 Para iniciar todos os serviços (backend, frontend, banco de dados, etc.) para desenvolvimento, execute:
 
@@ -298,7 +310,7 @@ docker-compose up --build
 - A **API do Backend** estará disponível em `http://localhost:8000`
 - O **Servidor de Desenvolvimento do Frontend** estará disponível em `http://localhost:5173` (com hot-reloading)
 
-#### 5. Executando em Modo de Produção
+#### 7. Executando em Modo de Produção
 
 Para construir e executar os contêineres prontos para produção, use o arquivo `docker-compose.prod.yml`. Este comando irá construir os arquivos estáticos do frontend e servi-los através do Nginx.
 

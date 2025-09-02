@@ -2,7 +2,7 @@ services:
   # PostgreSQL database
   db:
     image: postgres:17-alpine
-    container_name: ffh_postgres_prod
+    container_name: yourproject_postgres_prod
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
@@ -17,7 +17,7 @@ services:
   # Redis for cahce and sessions
   redis:
     image: redis:7-alpine
-    container_name: ffh_redis_prod
+    container_name: yourproject_redis_prod
     volumes:
       - redis_data:/data
     restart: unless-stopped
@@ -32,7 +32,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: ffh_backend_prod
+    container_name: yourproject_backend_prod
     volumes:
       - media_files:/app/media
       - static_files:/app/staticfiles
@@ -57,7 +57,7 @@ services:
       context: ./frontend
       target: production
       dockerfile: Dockerfile
-    container_name: ffh_nginx_prod
+    container_name: yourproject_nginx_prod
     volumes:
       - ./frontend/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
       - static_files:/var/www/static
@@ -76,7 +76,7 @@ services:
   celery-worker:
     build:
       context: ./backend
-    container_name: ffh_celery_worker_prod
+    container_name: yourproject_celery_worker_prod
     command: celery -A config worker --loglevel=info
     env_file: .env
     environment:
@@ -91,7 +91,7 @@ services:
   celery-beat:
     build:
       context: ./backend
-    container_name: ffh_celery_beat_prod
+    container_name: yourproject_celery_beat_prod
     command: celery -A config beat --loglevel=info
     env_file: .env
     environment:
@@ -110,4 +110,4 @@ volumes:
 
 networks:
   default:
-    name: ffh_network_prod
+    name: yourproject_network_prod

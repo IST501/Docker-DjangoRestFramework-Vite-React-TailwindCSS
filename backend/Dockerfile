@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     postgresql-client \
     curl \
-    tesseract-ocr tesseract-ocr-por libtesseract-dev libleptonica-dev \
     libjpeg-dev libpng-dev libwebp-dev \
     git \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -26,7 +25,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Install Python dependencies (using the production version)
 COPY requirements/ ./requirements/
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements/production.txt # ATENÇÃO: Usar production.txt
+    pip install --no-cache-dir -r requirements/production.txt # ATENTION: Use production.txt
 
 # --- Runner ---
 # The final image, streamlined and ready for production
@@ -39,7 +38,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install ONLY the runtime dependencies (not the build ones)
 RUN apt-get update && apt-get install -y \
     libpq5 \
-    tesseract-ocr tesseract-ocr-por \
     libjpeg62-turbo libpng16-16 libwebp7 \
     curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*

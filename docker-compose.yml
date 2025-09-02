@@ -2,7 +2,7 @@ services:
   # PostgreSQL database
   db:
     image: postgres:17-alpine
-    container_name: ffh_postgres_dev
+    container_name: yourproject_postgres_dev
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
@@ -19,7 +19,7 @@ services:
   # Redis for cahce and sessions
   redis:
     image: redis:7-alpine
-    container_name: ffh_redis_dev
+    container_name: yourproject_redis_dev
     volumes:
       - redis_data:/data
     ports:
@@ -36,7 +36,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: ffh_backend_dev
+    container_name: yourproject_backend_dev
     volumes:
       - ./backend:/app
       - media_files:/app/media
@@ -66,13 +66,14 @@ services:
       context: ./frontend
       target: development
       dockerfile: Dockerfile
-    container_name: ffh_frontend_dev
+    container_name: yourproject_frontend_dev
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     environment:
       - VITE_API_BASE_URL=http://localhost:8000/api
-      - VITE_APP_NAME=FamilyFinanceHub
+      - VITE_APP_NAME=your_app_name
       - NODE_ENV=development
     ports:
       - "5173:5173"
@@ -86,7 +87,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: ffh_celery_worker_dev
+    container_name: yourproject_celery_worker_dev
     volumes:
       - ./backend:/app
       - media_files:/app/media
@@ -112,7 +113,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: ffh_celery_beat
+    container_name: yourproject_celery_beat
     volumes:
       - ./backend:/app
     env_file:
@@ -140,4 +141,4 @@ volumes:
 
 networks:
   default:
-    name: ffh_network_dev
+    name: yourproject_network_dev

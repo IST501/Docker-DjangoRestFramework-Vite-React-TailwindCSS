@@ -4,9 +4,33 @@
 
 <a name="english"></a>
 
-## English
+# Dockerized Django, React, and Vite Boilerplate
 
-### Project Setup and Usage Guide
+This project provides a comprehensive, containerized boilerplate for building modern web applications. It integrates a Django Rest Framework backend with a Vite-powered React and TailwindCSS frontend, all managed by Docker and Docker Compose for seamless development and production workflows.
+
+### Technologies Used
+
+- **Containerization:** Docker, Docker Compose
+- **Backend:** Django, Django Rest Framework, Gunicorn
+- **Frontend:** React, Vite, TailwindCSS
+- **Database:** PostgreSQL
+- **Caching:** Redis
+- **Async Tasks:** Celery (with Celery Beat for scheduling)
+- **Web Server (Production):** Nginx
+
+### Project Structure
+
+```
+.
+├── backend/            # Django application source code
+├── frontend/           # React + Vite application source code
+├── mobile/             # Placeholder for a mobile application
+├── .env.example        # Example environment variables
+├── docker-compose.yml  # Docker Compose for development
+└── docker-compose.prod.yml # Docker Compose for production
+```
+
+## Project Setup and Usage Guide
 
 This guide provides instructions on how to set up and run this project in both development and production environments.
 
@@ -62,9 +86,54 @@ The frontend setup requires a few steps to initialize the Vite + React project a
     docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install -D tailwindcss @tailwindcss/vite
     ```
 
-After these commands, the frontend is configured. The necessary changes to `vite.config.js` and `frontend/src/index.css` have already been applied.
+#### 4. Configure TailwindCSS
 
-#### 4. Running in Development Mode
+After installing the dependencies, you need to configure Vite and your main CSS file to use Tailwind.
+
+1.  **Configure the Vite Plugin:**
+    Modify `frontend/vite.config.js` to include the `@tailwindcss/vite` plugin.
+
+    ```javascript
+    import { defineConfig } from "vite";
+    import react from "@vitejs/plugin-react";
+    import tailwindcss from "@tailwindcss/vite";
+
+    // https://vite.dev/config/
+    export default defineConfig({
+      plugins: [react(), tailwindcss()],
+    });
+    ```
+
+2.  **Import Tailwind Styles:**
+    Replace the content of `frontend/src/index.css` with the following line to import Tailwind's base styles.
+
+    ```css
+    @import "tailwindcss";
+    ```
+
+3.  **(Optional) Test with a Sample Component:**
+    To verify that Tailwind is working, you can replace the content of `frontend/src/App.jsx` with this sample component that uses Tailwind's utility classes.
+
+    ```jsx
+    function App() {
+      return (
+        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center font-sans">
+          <header className="text-center">
+            <h1 className="text-5xl font-bold text-cyan-400 mb-4">
+              Vite + React + TailwindCSS
+            </h1>
+            <p className="text-lg text-gray-400">
+              Your frontend environment is ready.
+            </p>
+          </header>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+
+#### 5. Running in Development Mode
 
 To start all services (backend, frontend, database, etc.) for development, run:
 
@@ -89,9 +158,33 @@ docker-compose -f docker-compose.prod.yml up --build
 
 <a name="português"></a>
 
-## Português
+# Boilerplate Docker com Django, React e Vite
 
-### Guia de Configuração e Uso do Projeto
+Este projeto fornece um boilerplate abrangente e containerizado para a construção de aplicações web modernas. Ele integra um backend Django Rest Framework com um frontend React e TailwindCSS alimentado por Vite, tudo gerenciado pelo Docker e Docker Compose para fluxos de trabalho de desenvolvimento e produção contínuos.
+
+### Tecnologias Utilizadas
+
+- **Containerização:** Docker, Docker Compose
+- **Backend:** Django, Django Rest Framework, Gunicorn
+- **Frontend:** React, Vite, TailwindCSS
+- **Banco de Dados:** PostgreSQL
+- **Cache:** Redis
+- **Tarefas Assíncronas:** Celery (com Celery Beat para agendamento)
+- **Servidor Web (Produção):** Nginx
+
+### Estrutura do Projeto
+
+```
+.
+├── backend/            # Código-fonte da aplicação Django
+├── frontend/           # Código-fonte da aplicação React + Vite
+├── mobile/             # Espaço reservado para uma aplicação móvel
+├── .env.example        # Exemplo de variáveis de ambiente
+├── docker-compose.yml  # Docker Compose para desenvolvimento
+└── docker-compose.prod.yml # Docker Compose para produção
+```
+
+## Guia de Configuração e Uso do Projeto
 
 Este guia fornece instruções sobre como configurar e executar este projeto nos ambientes de desenvolvimento e produção.
 
@@ -147,9 +240,54 @@ A configuração do frontend requer alguns passos para inicializar o projeto Vit
     docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install -D tailwindcss @tailwindcss/vite
     ```
 
-Após esses comandos, o frontend está configurado. As alterações necessárias no `vite.config.js` e `frontend/src/index.css` já foram aplicadas.
+#### 4. Configurar o TailwindCSS
 
-#### 4. Executando em Modo de Desenvolvimento
+Após instalar as dependências, você precisa configurar o Vite e seu arquivo CSS principal para usar o Tailwind.
+
+1.  **Configure o Plugin do Vite:**
+    Modifique o arquivo `frontend/vite.config.js` para incluir o plugin `@tailwindcss/vite`.
+
+    ```javascript
+    import { defineConfig } from "vite";
+    import react from "@vitejs/plugin-react";
+    import tailwindcss from "@tailwindcss/vite";
+
+    // https://vite.dev/config/
+    export default defineConfig({
+      plugins: [react(), tailwindcss()],
+    });
+    ```
+
+2.  **Importe os Estilos do Tailwind:**
+    Substitua o conteúdo de `frontend/src/index.css` pela seguinte linha para importar os estilos base do Tailwind.
+
+    ```css
+    @import "tailwindcss";
+    ```
+
+3.  **(Opcional) Teste com um Componente de Exemplo:**
+    Para verificar se o Tailwind está funcionando, você pode substituir o conteúdo de `frontend/src/App.jsx` por este componente de exemplo que utiliza as classes utilitárias do Tailwind.
+
+    ```jsx
+    function App() {
+      return (
+        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center font-sans">
+          <header className="text-center">
+            <h1 className="text-5xl font-bold text-cyan-400 mb-4">
+              Vite + React + TailwindCSS
+            </h1>
+            <p className="text-lg text-gray-400">
+              Seu ambiente de frontend está pronto.
+            </p>
+          </header>
+        </div>
+      );
+    }
+
+    export default App;
+    ```
+
+#### 5. Executando em Modo de Desenvolvimento
 
 Para iniciar todos os serviços (backend, frontend, banco de dados, etc.) para desenvolvimento, execute:
 

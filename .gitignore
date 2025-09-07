@@ -5,8 +5,10 @@ __pycache__/
 *.py[cod]
 *.sqlite3
 *.log
-media/
-staticfiles/
+# Django
+backend/media/
+backend/staticfiles/
+**/migrations/
 .env
 
 # =========================

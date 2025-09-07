@@ -36,7 +36,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    user: "${UID:-1000}:${GID:-1000}"
     container_name: yourproject_backend_dev
     volumes:
       - ./backend:/app
@@ -45,6 +44,8 @@ services:
     env_file:
       - .env
     environment:
+      - HOST_UID=${UID:-1000}
+      - HOST_GID=${GID:-1000}
       - DEBUG=True
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
@@ -88,7 +89,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    user: "${UID:-1000}:${GID:-1000}"
     container_name: yourproject_celery_worker_dev
     volumes:
       - ./backend:/app
@@ -96,6 +96,8 @@ services:
     env_file:
       - .env
     environment:
+      - HOST_UID=${UID:-1000}
+      - HOST_GID=${GID:-1000}
       - DEBUG=True
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
@@ -115,13 +117,14 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    user: "${UID:-1000}:${GID:-1000}"
     container_name: yourproject_celery_beat
     volumes:
       - ./backend:/app
     env_file:
       - .env
     environment:
+      - HOST_UID=${UID:-1000}
+      - HOST_GID=${GID:-1000}
       - DEBUG=True
       - DJANGO_SETTINGS_MODULE=config.settings.development
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}

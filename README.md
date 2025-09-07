@@ -44,113 +44,68 @@ This guide provides instructions on how to set up and run this project in both d
 Before running any commands, you need to set up your environment variables.
 
 1.  **Create and configure the `.env` file:**
-    Copy the example file and then append your user and group ID to it. This ensures that files created in the Docker containers have the correct ownership on your local machine.
+    Copy the example file. The setup will automatically use your current user and group ID to ensure correct file permissions.
 
     ```bash
     cp .env.example .env
-    echo "UID=$(id -u)" >> .env
-    echo "GID=$(id -g)" >> .env
     ```
 
 2.  **Review the other variables:**
     Open the `.env` file and adjust any other values if necessary (e.g., database credentials, secret keys).
 
-#### 2. First-Time Backend Setup
+#### 2. First-Time Project Setup
 
-To create the initial Django project structure inside the `backend` directory, run the following command. This only needs to be done once.
+The first time you run the development server, the backend and frontend projects will be automatically initialized.
 
-```bash
-docker-compose run --rm --entrypoint /bin/sh backend -c "django-admin startproject config ."
-```
-
-#### 3. First-Time Frontend Setup
-
-The frontend setup requires a few steps to initialize the Vite + React project and install all dependencies, including TailwindCSS. This only needs to be done once.
-
-1.  **Scaffold the Vite + React project:**
-    This command runs interactively. When prompted about the directory not being empty, choose the **"Ignore files and continue"** option.
+1.  **Start the development environment:**
 
     ```bash
-    docker run --rm -it -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm create vite@latest . -- --template react
+    docker-compose up --build
     ```
 
-2.  **Install Node.js dependencies:**
+    - The first time this command runs, it will:
+      - Build the Docker images.
+      - Automatically create the entire Django project structure in the `backend/` directory.
+      - Initialize a Vite + React project in the `frontend/` directory.
+      - Install all necessary dependencies for both services.
+    - On subsequent runs, it will simply start the services.
 
-    ```bash
-    docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install
-    ```
+2.  **Frontend Setup (Manual Step):**
+    After the initial setup, you need to configure TailwindCSS for the frontend.
 
-3.  **Install TailwindCSS dependencies:**
-    This installs TailwindCSS v4 and the official Vite plugin.
-    ```bash
-    docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install -D tailwindcss @tailwindcss/vite
-    ```
+    - **Configure the Vite Plugin:**
+      Modify `frontend/vite.config.js` to include the `@tailwindcss/vite` plugin.
 
-#### 4. Fixing permissions from the files created at frontend
+      ```javascript
+      import { defineConfig } from "vite";
+      import react from "@vitejs/plugin-react";
+      import tailwindcss from "@tailwindcss/vite";
+
+      // https://vite.dev/config/
+      export default defineConfig({
+        plugins: [react(), tailwindcss()],
+      });
+      ```
+
+    - **Import Tailwind Styles:**
+      Replace the content of `frontend/src/index.css` with the following line to import Tailwind's base styles.
+
+      ```css
+      @import "tailwindcss";
+      ```
+
+#### 3. Running in Development Mode
+
+To start all services (backend, frontend, database, etc.) for development after the initial setup, run:
 
 ```bash
-sudo chown -R $(id -u):$(id -g) frontend
-```
-
-#### 5. Configure TailwindCSS
-
-After installing the dependencies, you need to configure Vite and your main CSS file to use Tailwind.
-
-1.  **Configure the Vite Plugin:**
-    Modify `frontend/vite.config.js` to include the `@tailwindcss/vite` plugin.
-
-    ```javascript
-    import { defineConfig } from "vite";
-    import react from "@vitejs/plugin-react";
-    import tailwindcss from "@tailwindcss/vite";
-
-    // https://vite.dev/config/
-    export default defineConfig({
-      plugins: [react(), tailwindcss()],
-    });
-    ```
-
-2.  **Import Tailwind Styles:**
-    Replace the content of `frontend/src/index.css` with the following line to import Tailwind's base styles.
-
-    ```css
-    @import "tailwindcss";
-    ```
-
-3.  **(Optional) Test with a Sample Component:**
-    To verify that Tailwind is working, you can replace the content of `frontend/src/App.jsx` with this sample component that uses Tailwind's utility classes.
-
-    ```jsx
-    function App() {
-      return (
-        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center font-sans">
-          <header className="text-center">
-            <h1 className="text-5xl font-bold text-cyan-400 mb-4">
-              Vite + React + TailwindCSS
-            </h1>
-            <p className="text-lg text-gray-400">
-              Your frontend environment is ready.
-            </p>
-          </header>
-        </div>
-      );
-    }
-
-    export default App;
-    ```
-
-#### 6. Running in Development Mode
-
-To start all services (backend, frontend, database, etc.) for development, run:
-
-```bash
-docker-compose up --build
+docker-compose up
 ```
 
 - **Backend API** will be available at `http://localhost:8000`
 - **Frontend Dev Server** will be available at `http://localhost:5173` (with hot-reloading)
 
-#### 7. Running in Production Mode
+#### 4. Running in Production Mode
 
 To build and run the production-ready containers, use the `docker-compose.prod.yml` file. This will build the static frontend files and serve them via Nginx.
 
@@ -204,113 +159,68 @@ Este guia fornece instruções sobre como configurar e executar este projeto nos
 Antes de executar qualquer comando, você precisa configurar suas variáveis de ambiente.
 
 1.  **Crie e configure o arquivo `.env`:**
-    Copie o arquivo de exemplo e, em seguida, adicione o ID do seu usuário e grupo a ele. Isso garante que os arquivos criados nos contêineres Docker tenham a propriedade correta na sua máquina local.
+    Copie o arquivo de exemplo. A configuração usará automaticamente o ID do seu usuário e grupo para garantir as permissões corretas dos arquivos.
 
     ```bash
     cp .env.example .env
-    echo "UID=$(id -u)" >> .env
-    echo "GID=$(id -g)" >> .env
     ```
 
 2.  **Revise as outras variáveis:**
     Abra o arquivo `.env` e ajuste quaisquer outros valores se necessário (ex: credenciais do banco de dados, chaves secretas).
 
-#### 2. Configuração Inicial do Backend
+#### 2. Configuração Inicial do Projeto
 
-Para criar a estrutura inicial do projeto Django dentro do diretório `backend`, execute o seguinte comando. Isso só precisa ser feito uma vez.
+Na primeira vez que você executar o servidor de desenvolvimento, os projetos de backend e frontend serão inicializados automaticamente.
 
-```bash
-docker-compose run --rm --entrypoint /bin/sh backend -c "django-admin startproject config ."
-```
-
-#### 3. Configuração Inicial do Frontend
-
-A configuração do frontend requer alguns passos para inicializar o projeto Vite + React e instalar todas as dependências, incluindo o TailwindCSS. Isso só precisa ser feito uma vez.
-
-1.  **Crie o projeto Vite + React:**
-    Este comando é executado de forma interativa. Quando perguntado sobre o diretório não estar vazio, escolha a opção **"Ignore files and continue"** (Ignorar arquivos e continuar).
+1.  **Inicie o ambiente de desenvolvimento:**
 
     ```bash
-    docker run --rm -it -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm create vite@latest . -- --template react
+    docker-compose up --build
     ```
 
-2.  **Instale as dependências do Node.js:**
+    - Na primeira vez que este comando for executado, ele irá:
+      - Construir as imagens Docker.
+      - Criar automaticamente toda a estrutura do projeto Django no diretório `backend/`.
+      - Inicializar um projeto Vite + React no diretório `frontend/`.
+      - Instalar todas as dependências necessárias para ambos os serviços.
+    - Nas execuções seguintes, ele apenas iniciará os serviços.
 
-    ```bash
-    docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install
-    ```
+2.  **Configuração do Frontend (Passo Manual):**
+    Após a configuração inicial, você precisa configurar o TailwindCSS para o frontend.
 
-3.  **Instale as dependências do TailwindCSS:**
-    Isso instala o TailwindCSS v4 e o plugin oficial para Vite.
-    ```bash
-    docker run --rm -v "$(pwd)/frontend:/app" -w /app node:24-alpine npm install -D tailwindcss @tailwindcss/vite
-    ```
+    - **Configure o Plugin do Vite:**
+      Modifique o arquivo `frontend/vite.config.js` para incluir o plugin `@tailwindcss/vite`.
 
-#### 4. Ajustando as permissões dos arquivos criados em frontend
+      ```javascript
+      import { defineConfig } from "vite";
+      import react from "@vitejs/plugin-react";
+      import tailwindcss from "@tailwindcss/vite";
+
+      // https://vite.dev/config/
+      export default defineConfig({
+        plugins: [react(), tailwindcss()],
+      });
+      ```
+
+    - **Importe os Estilos do Tailwind:**
+      Substitua o conteúdo de `frontend/src/index.css` pela seguinte linha para importar os estilos base do Tailwind.
+
+      ```css
+      @import "tailwindcss";
+      ```
+
+#### 3. Executando em Modo de Desenvolvimento
+
+Para iniciar todos os serviços (backend, frontend, banco de dados, etc.) para desenvolvimento após a configuração inicial, execute:
 
 ```bash
-sudo chown -R $(id -u):$(id -g) frontend
-```
-
-#### 5. Configurar o TailwindCSS
-
-Após instalar as dependências, você precisa configurar o Vite e seu arquivo CSS principal para usar o Tailwind.
-
-1.  **Configure o Plugin do Vite:**
-    Modifique o arquivo `frontend/vite.config.js` para incluir o plugin `@tailwindcss/vite`.
-
-    ```javascript
-    import { defineConfig } from "vite";
-    import react from "@vitejs/plugin-react";
-    import tailwindcss from "@tailwindcss/vite";
-
-    // https://vite.dev/config/
-    export default defineConfig({
-      plugins: [react(), tailwindcss()],
-    });
-    ```
-
-2.  **Importe os Estilos do Tailwind:**
-    Substitua o conteúdo de `frontend/src/index.css` pela seguinte linha para importar os estilos base do Tailwind.
-
-    ```css
-    @import "tailwindcss";
-    ```
-
-3.  **(Opcional) Teste com um Componente de Exemplo:**
-    Para verificar se o Tailwind está funcionando, você pode substituir o conteúdo de `frontend/src/App.jsx` por este componente de exemplo que utiliza as classes utilitárias do Tailwind.
-
-    ```jsx
-    function App() {
-      return (
-        <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center font-sans">
-          <header className="text-center">
-            <h1 className="text-5xl font-bold text-cyan-400 mb-4">
-              Vite + React + TailwindCSS
-            </h1>
-            <p className="text-lg text-gray-400">
-              Seu ambiente de frontend está pronto.
-            </p>
-          </header>
-        </div>
-      );
-    }
-
-    export default App;
-    ```
-
-#### 6. Executando em Modo de Desenvolvimento
-
-Para iniciar todos os serviços (backend, frontend, banco de dados, etc.) para desenvolvimento, execute:
-
-```bash
-docker-compose up --build
+docker-compose up
 ```
 
 - A **API do Backend** estará disponível em `http://localhost:8000`
 - O **Servidor de Desenvolvimento do Frontend** estará disponível em `http://localhost:5173` (com hot-reloading)
 
-#### 7. Executando em Modo de Produção
+#### 4. Executando em Modo de Produção
 
 Para construir e executar os contêineres prontos para produção, use o arquivo `docker-compose.prod.yml`. Este comando irá construir os arquivos estáticos do frontend e servi-los através do Nginx.
 

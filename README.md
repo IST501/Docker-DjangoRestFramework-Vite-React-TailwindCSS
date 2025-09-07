@@ -63,12 +63,15 @@ The first time you run the development server, the backend and frontend projects
     docker-compose up --build
     ```
 
-    - The first time this command runs, it will:
-      - Build the Docker images.
-      - Automatically create the entire Django project structure in the `backend/` directory.
-      - Initialize a Vite + React project in the `frontend/` directory.
-      - Install all necessary dependencies for both services.
-    - On subsequent runs, it will simply start the services.
+    - The first time this command runs, the `entrypoint.sh` script in the backend service automates the entire Django setup process. Here's what it does:
+      - **Creates the Project Structure**: Initializes a Django project named `config`.
+      - **Creates Core Applications**: Generates two essential apps:
+        - `apps/core`: A general-purpose app for core functionalities like health checks or utility services.
+        - `apps/users`: An app dedicated to user management, authentication, and profiles.
+      - **Configures Settings**: Sets up a structured settings directory (`config/settings/`) with separate files for `base.py`, `development.py`, and `production.py` to manage different environments effectively.
+      - **Sets Development Mode**: Automatically configures Django to use the `development.py` settings for the development environment.
+      - **Database Readiness**: Creates a `wait_for_db` command to ensure the backend waits for the PostgreSQL database to be ready before starting.
+    - On subsequent runs, the script detects that the project already exists and simply starts the server.
 
 2.  **Frontend Setup (Manual Step):**
     After the initial setup, you need to configure TailwindCSS for the frontend.
@@ -178,12 +181,15 @@ Na primeira vez que você executar o servidor de desenvolvimento, os projetos de
     docker-compose up --build
     ```
 
-    - Na primeira vez que este comando for executado, ele irá:
-      - Construir as imagens Docker.
-      - Criar automaticamente toda a estrutura do projeto Django no diretório `backend/`.
-      - Inicializar um projeto Vite + React no diretório `frontend/`.
-      - Instalar todas as dependências necessárias para ambos os serviços.
-    - Nas execuções seguintes, ele apenas iniciará os serviços.
+    - Na primeira vez que este comando for executado, o script `entrypoint.sh` no serviço de backend automatiza todo o processo de configuração do Django. Veja o que ele faz:
+      - **Cria a Estrutura do Projeto**: Inicia um projeto Django chamado `config`.
+      - **Cria as Aplicações Principais**: Gera duas aplicações essenciais:
+        - `apps/core`: Uma aplicação de propósito geral para funcionalidades centrais, como verificações de saúde (health checks) ou serviços utilitários.
+        - `apps/users`: Uma aplicação dedicada ao gerenciamento de usuários, autenticação e perfis.
+      - **Configura as Definições (Settings)**: Cria um diretório de configurações estruturado (`config/settings/`) com arquivos separados para `base.py`, `development.py` e `production.py` para gerenciar diferentes ambientes de forma eficaz.
+      - **Define o Modo de Desenvolvimento**: Configura automaticamente o Django para usar as definições de `development.py` no ambiente de desenvolvimento.
+      - **Prontidão do Banco de Dados**: Cria um comando `wait_for_db` para garantir que o backend aguarde o banco de dados PostgreSQL estar pronto antes de iniciar.
+    - Nas execuções seguintes, o script detecta que o projeto já existe e apenas inicia o servidor.
 
 2.  **Configuração do Frontend (Passo Manual):**
     Após a configuração inicial, você precisa configurar o TailwindCSS para o frontend.

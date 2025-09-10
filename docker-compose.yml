@@ -69,11 +69,12 @@ services:
       target: development
       dockerfile: Dockerfile
     container_name: yourproject_frontend_dev
-    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     environment:
+      - HOST_UID=${UID:-1000}
+      - HOST_GID=${GID:-1000}
       - VITE_API_BASE_URL=http://localhost:8000/api
       - VITE_APP_NAME=your_app_name
       - NODE_ENV=development

@@ -73,29 +73,8 @@ The first time you run the development server, the backend and frontend projects
       - **Database Readiness**: Creates a `wait_for_db` command to ensure the backend waits for the PostgreSQL database to be ready before starting.
     - On subsequent runs, the script detects that the project already exists and simply starts the server.
 
-2.  **Frontend Setup (Manual Step):**
-    After the initial setup, you need to configure TailwindCSS for the frontend.
-
-    - **Configure the Vite Plugin:**
-      Modify `frontend/vite.config.js` to include the `@tailwindcss/vite` plugin.
-
-      ```javascript
-      import { defineConfig } from "vite";
-      import react from "@vitejs/plugin-react";
-      import tailwindcss from "@tailwindcss/vite";
-
-      // https://vite.dev/config/
-      export default defineConfig({
-        plugins: [react(), tailwindcss()],
-      });
-      ```
-
-    - **Import Tailwind Styles:**
-      Replace the content of `frontend/src/index.css` with the following line to import Tailwind's base styles.
-
-      ```css
-      @import "tailwindcss";
-      ```
+2.  **Automated Frontend Setup:**
+    The entrypoint script for the frontend service also automates the setup process. It creates a Vite + React project, installs all dependencies, and configures TailwindCSS automatically.
 
 #### 3. Running in Development Mode
 
@@ -191,29 +170,8 @@ Na primeira vez que você executar o servidor de desenvolvimento, os projetos de
       - **Prontidão do Banco de Dados**: Cria um comando `wait_for_db` para garantir que o backend aguarde o banco de dados PostgreSQL estar pronto antes de iniciar.
     - Nas execuções seguintes, o script detecta que o projeto já existe e apenas inicia o servidor.
 
-2.  **Configuração do Frontend (Passo Manual):**
-    Após a configuração inicial, você precisa configurar o TailwindCSS para o frontend.
-
-    - **Configure o Plugin do Vite:**
-      Modifique o arquivo `frontend/vite.config.js` para incluir o plugin `@tailwindcss/vite`.
-
-      ```javascript
-      import { defineConfig } from "vite";
-      import react from "@vitejs/plugin-react";
-      import tailwindcss from "@tailwindcss/vite";
-
-      // https://vite.dev/config/
-      export default defineConfig({
-        plugins: [react(), tailwindcss()],
-      });
-      ```
-
-    - **Importe os Estilos do Tailwind:**
-      Substitua o conteúdo de `frontend/src/index.css` pela seguinte linha para importar os estilos base do Tailwind.
-
-      ```css
-      @import "tailwindcss";
-      ```
+2.  **Configuração Automatizada do Frontend:**
+    O script de entrada para o serviço de frontend também automatiza o processo de configuração. Ele cria um projeto Vite + React, instala todas as dependências e configura o TailwindCSS automaticamente.
 
 #### 3. Executando em Modo de Desenvolvimento
 

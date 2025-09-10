@@ -74,7 +74,9 @@ The first time you run the development server, the backend and frontend projects
     - On subsequent runs, the script detects that the project already exists and simply starts the server.
 
 2.  **Automated Frontend Setup:**
+
     Similarly, the frontend's entrypoint script automates the entire setup if it detects an empty project. Here's a breakdown of what it does:
+
     - **Scaffolds the Project:** Creates a new Vite project using the React template.
     - **Installs Dependencies:** Runs `npm install` to get all the base React and Vite packages.
     - **Integrates TailwindCSS:** Installs `tailwindcss` and the official `@tailwindcss/vite plugin`.
@@ -178,7 +180,9 @@ Na primeira vez que você executar o servidor de desenvolvimento, os projetos de
     - Nas execuções seguintes, o script detecta que o projeto já existe e apenas inicia o servidor.
 
 2.  **Configuração Automatizada do Frontend:**
+
     Da mesma forma, o script de entrada do frontend automatiza toda a configuração se detectar um projeto vazio. Aqui está um resumo do que ele faz:
+
     - **Cria a Estrutura do Projeto:** Cria um novo projeto Vite usando o template para React.
     - **Instala as Dependências:** Executa `npm install` para obter todos os pacotes base do React e Vite.
     - **Integra o TailwindCSS:** Instala o `tailwindcss` e o plugin oficial `@tailwindcss/vite`.

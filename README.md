@@ -74,7 +74,14 @@ The first time you run the development server, the backend and frontend projects
     - On subsequent runs, the script detects that the project already exists and simply starts the server.
 
 2.  **Automated Frontend Setup:**
-    The entrypoint script for the frontend service also automates the setup process. It creates a Vite + React project, installs all dependencies, and configures TailwindCSS automatically.
+    Similarly, the frontend's entrypoint script automates the entire setup if it detects an empty project. Here's a breakdown of what it does:
+    - **Scaffolds the Project:** Creates a new Vite project using the React template.
+    - **Installs Dependencies:** Runs `npm install` to get all the base React and Vite packages.
+    - **Integrates TailwindCSS:** Installs `tailwindcss` and the official `@tailwindcss/vite plugin`.
+    - **Configures File Paths:** Creates a `tailwind.config.js` file and configures it to scan your `index.html` and `src` directory for class names.
+    - **Updates Vite Configuration:** Modifies `vite.config.js` to include the TailwindCSS plugin and sets server options (like `host` and `usePolling`) for optimal performance within Docker.
+    - **Injects Base Styles:** Replaces the content of `src/index.css` with the required TailwindCSS `@import` directives.
+    - **Provides a Sample App:** Overwrites `src/App.jsx` with a sample component styled with Tailwind classes, giving you immediate visual confirmation that the setup was successful.
 
 #### 3. Running in Development Mode
 
@@ -171,7 +178,14 @@ Na primeira vez que você executar o servidor de desenvolvimento, os projetos de
     - Nas execuções seguintes, o script detecta que o projeto já existe e apenas inicia o servidor.
 
 2.  **Configuração Automatizada do Frontend:**
-    O script de entrada para o serviço de frontend também automatiza o processo de configuração. Ele cria um projeto Vite + React, instala todas as dependências e configura o TailwindCSS automaticamente.
+    Da mesma forma, o script de entrada do frontend automatiza toda a configuração se detectar um projeto vazio. Aqui está um resumo do que ele faz:
+    - **Cria a Estrutura do Projeto:** Cria um novo projeto Vite usando o template para React.
+    - **Instala as Dependências:** Executa `npm install` para obter todos os pacotes base do React e Vite.
+    - **Integra o TailwindCSS:** Instala o `tailwindcss` e o plugin oficial `@tailwindcss/vite`.
+    - **Configura os Caminhos dos Arquivos:** Cria um arquivo `tailwind.config.js` e o configura para escanear seu arquivo `index.html` e o diretório `src` em busca de nomes de classes.
+    - **Atualiza a Configuração do Vite:** Modifica o `vite.config.js` para incluir o plugin do TailwindCSS e define opções de servidor (como `host` e `usePolling`) para um desempenho otimizado dentro do Docker.
+    - **Injeta os Estilos Base:** Substitui o conteúdo do arquivo `src/index.css` pelas diretivas `@import` necessárias do TailwindCSS.
+    - **Fornece uma Aplicação de Exemplo:** Sobrescreve o `src/App.jsx` com um componente de exemplo estilizado com classes do Tailwind, fornecendo uma confirmação visual imediata de que a configuração foi bem-sucedida.
 
 #### 3. Executando em Modo de Desenvolvimento
 
